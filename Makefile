@@ -11,6 +11,11 @@ FLAGS       := -Wall -Wextra -Werror -fsanitize=address -g -pthread
 SRCS        := main.c \
 			   parsing.c \
 			   utils.c \
+			   simulation.c \
+			   actions.c \
+			   getinfo.c \
+			   setinfo.c \
+			   initializer.c \
                        
 OBJS        := $(SRCS:.c=.o)
 
