@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/16 19:01:48 by root              #+#    #+#             */
+/*   Updated: 2025/07/16 19:01:48 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	cleanup_data(t_data *data)
 {
 	int	i;
 
-	// Destroy philosopher mutexes
 	i = 0;
 	while (i < data->num_philos)
 	{
@@ -25,16 +36,13 @@ void	cleanup_data(t_data *data)
 		}
 		i++;
 	}
-	// Destroy fork mutexes
 	i = 0;
 	while (i < data->num_philos)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
-	// Destroy print mutex
 	pthread_mutex_destroy(&data->print_mutex);
-	// Free allocated arrays
 	if (data->philos)
 		free(data->philos);
 	if (data->forks)

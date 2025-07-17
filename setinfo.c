@@ -6,13 +6,13 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:18:15 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 17:27:22 by root             ###   ########.fr       */
+/*   Updated: 2025/07/16 19:36:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-philo_state	set_philo_state(t_philo *philo, philo_state state)
+t_philo_state	set_philo_state(t_philo *philo, t_philo_state state)
 {
 	pthread_mutex_lock(philo->state_mutex);
 	philo->state = state;

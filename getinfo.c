@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:16 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 17:20:24 by root             ###   ########.fr       */
+/*   Updated: 2025/07/16 19:10:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ uint64_t	get_philo_last_meal(t_philo *philo)
 	return (last_meal_time);
 }
 
-philo_state	get_philo_state(t_philo *philo)
+t_philo_state	get_philo_state(t_philo *philo)
 {
-	philo_state	state;
+	t_philo_state	state;
 
 	pthread_mutex_lock(philo->state_mutex);
 	state = philo->state;

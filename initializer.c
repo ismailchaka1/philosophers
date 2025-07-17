@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:28:50 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 17:29:15 by root             ###   ########.fr       */
+/*   Updated: 2025/07/16 19:34:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ void	init_forks(t_data *data)
 {
 	int	i;
 
-	i = 1;
-	data->philos[0].left_fork = &data->forks[0];
-	data->philos[0].right_fork = &data->forks[data->num_philos - 1];
-	while (i < data->num_philos - 1)
+	i = 0;
+	while (i < data->num_philos)
 	{
-		data->philos[i + 1].left_fork = &data->forks[i];
-		data->philos[i + 1].right_fork = &data->forks[i - 1];
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1) % data->num_philos];
 		i++;
 	}
-	start_simulation(data);
 }
 
 void	init_philos(t_data *data)
@@ -90,7 +87,6 @@ void	init_parsing(char **av, t_data *data)
 		error_exit();
 	if (av[5] && data->meals_required <= 0)
 		error_exit();
-	// Initialize print mutex
 	pthread_mutex_init(&data->print_mutex, NULL);
 	data->simulation_flag = true;
 	data->start_time = get_current_time();
