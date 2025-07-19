@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:16 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 19:10:44 by root             ###   ########.fr       */
+/*   Updated: 2025/07/19 00:48:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	get_simulation_flag(t_data *data)
 {
 	int	flag;
 
-	pthread_mutex_lock(&data->print_mutex);
+	pthread_mutex_lock(&data->simulation_flag_mutex);
 	flag = data->simulation_flag;
-	pthread_mutex_unlock(&data->print_mutex);
+	pthread_mutex_unlock(&data->simulation_flag_mutex);
 	return (flag);
 }

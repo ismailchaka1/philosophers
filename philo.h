@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:00:01 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 19:41:42 by root             ###   ########.fr       */
+/*   Updated: 2025/07/19 00:53:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,17 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				num_philos;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				time_to_die;
+	uint64_t		time_to_eat;
+	uint64_t		time_to_sleep;
+	uint64_t		time_to_die;
 	int				meals_required;
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	simulation_flag_mutex;
 	bool			simulation_flag;
 	pthread_t		*philo_threads;
+	pthread_t		death_philo_thread;
 	t_philo			*philos;
 }					t_data;
 
@@ -81,11 +83,11 @@ t_philo_state		get_philo_state(t_philo *philo);
 int					get_simulation_flag(t_data *data);
 
 // Setter functions
-t_philo_state		set_philo_state(t_philo *philo, t_philo_state state);
-int					set_simulation_flag(t_data *data, bool flag);
-uint64_t			set_philo_last_meal(t_philo *philo, uint64_t time);
+void				set_philo_state(t_philo *philo, t_philo_state state);
+void				set_simulation_flag(t_data *data, bool flag);
+void				set_philo_last_meal(t_philo *philo, size_t time);
 void				set_philo_meals(t_philo *philo, int meals);
-uint64_t			set_last_eat_time(t_philo *philo, uint64_t time);
+void				set_last_eat_time(t_philo *philo, size_t time);
 
 // Action functions
 bool				philo_eat(t_philo *philo);
@@ -99,5 +101,7 @@ void				drop_forks(t_philo *philo);
 bool				is_philo_full(t_philo *philo);
 bool				take_left_fork(t_philo *philo);
 bool				take_right_fork(t_philo *philo);
+void				drop_forks(t_philo *philo);
+void				kill_philos(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:58:55 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:08:16 by root             ###   ########.fr       */
+/*   Updated: 2025/07/19 00:58:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ void	*philo_routine(void *philo)
 		ft_usleep(p->data->time_to_eat - 10);
 	while (get_simulation_flag(p->data))
 	{
+		// print the state of the philosopher
+		if (get_philo_state(p) == DEAD)
+			printf("Philosopher %d is dead\n", p->id);
+		else if (get_philo_state(p) == EAT)
+			printf("Philosopher %d is EAT\n", p->id);
+		else if (get_philo_state(p) == SLEEP)
+			print_state(p, "is SLEEP");
+		else if (get_philo_state(p) == THINK)
+			print_state(p, "is THINK");
+		else if (get_philo_state(p) == FULL)
+			print_state(p, "is FULL");
+		else if (get_philo_state(p) == IDLE)
+			print_state(p, "is IDLE");
 		if (!is_philo_full(p) && philo_eat(p) == false)
 			break ;
 		if (get_philo_state(p) == DEAD)
@@ -42,6 +55,31 @@ void	*philo_routine(void *philo)
 			break ;
 		if (!is_philo_full(p) && philo_think(p) == false)
 			break ;
+	}
+	return (NULL);
+}
+
+void *check_death_philo(void *data_ptr)
+{
+	int		i;
+	t_data	*table;
+
+	table = (t_data *)data_ptr;
+	i = 0;
+	while (i < table->num_philos)
+	{
+		if (get_current_time()
+			- get_philo_last_meal(&table->philos[i]) > table->time_to_die)
+		{
+			print_state(&table->philos[i], "died");
+			set_simulation_flag(table, false);
+			kill_philos(table);
+			break ;
+		}
+		i++;
+		if (i == table->num_philos)
+			i = 0;
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -62,7 +100,10 @@ void	start_simulation(t_data *data)
 			&data->philos[i]);
 		i++;
 	}
+	// pthread_create(&data->full_meals_thread, NULL, check_full_meals, data);
+	pthread_create(&data->death_philo_thread, NULL, check_death_philo, data);
 	i = 0;
+	pthread_join(data->death_philo_thread, NULL);
 	while (i < data->num_philos)
 	{
 		pthread_join(data->philo_threads[i], NULL);

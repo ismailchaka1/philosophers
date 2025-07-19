@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:21:04 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:06:49 by root             ###   ########.fr       */
+/*   Updated: 2025/07/19 00:57:01 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,17 @@ bool	philo_sleep(t_philo *philo)
 
 bool	philo_think(t_philo *philo)
 {
+	long	t_think;
+
 	if (get_philo_state(philo) == DEAD)
 		return (false);
-	set_philo_state(philo, THINK);
+	t_think = (philo->data->time_to_eat * 2) - philo->data->time_to_sleep;
+	if (t_think < 0)
+	{
+		t_think = 0;
+	}
 	print_state(philo, "is thinking");
+	if (philo->data->num_philos % 2)
+		ft_usleep(t_think * 0.5);
 	return (true);
 }

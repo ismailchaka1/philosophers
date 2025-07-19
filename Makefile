@@ -15,6 +15,7 @@ SRCS        := main.c \
 			   actions.c \
 			   getinfo.c \
 			   setinfo.c \
+			   utils2.c \
 			   initializer.c \
                        
 OBJS        := $(SRCS:.c=.o)
